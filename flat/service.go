@@ -35,20 +35,16 @@ func (s *Service) FindMovieReviews(movieID string) ([]*Review, error) {
 
 // SaveMovie stores a movie
 func (s *Service) SaveMovie(movie *Movie) error {
-	if movie.ID == "" {
-		uuid, _ := uuid.NewV4()
-		movie.ID = uuid.String()
-	}
+	uuid, _ := uuid.NewV4()
+	movie.ID = uuid.String()
 	movie.CreatedAt = time.Now()
 	return s.repo.SaveMovie(movie)
 }
 
 // SaveMovieReview stores a review for a movie
 func (s *Service) SaveMovieReview(review *Review) error {
-	if review.ID == "" {
-		uuid, _ := uuid.NewV4()
-		review.ID = uuid.String()
-	}
+	uuid, _ := uuid.NewV4()
+	review.ID = uuid.String()
 	review.CreatedAt = time.Now()
 	return s.repo.SaveMovieReview(review)
 }
