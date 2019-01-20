@@ -2,18 +2,24 @@ package main
 
 import (
 	"log"
-	"net/http"
+	"os"
 
-	"github.com/gorilla/mux"
+	"github.com/joho/godotenv"
 )
 
 func main() {
-	r := mux.NewRouter()
-	r.HandleFunc("/movies", getMovies).Methods("GET")
-	r.HandleFunc("/movies/{id}", getMovie).Methods("GET")
-	r.HandleFunc("/movies/{id}/reviews", getMovieReviews).Methods("GET")
-	r.HandleFunc("/movies", addMovie).Methods("POST")
-	r.HandleFunc("/movies/{id}/reviews", addMovieReview).Methods("POST")
+	if err := godotenv.Load(); err != nil {
+		log.Fatal("Error loading .env file")
+	}
 
-	log.Fatal(http.ListenAndServe(":8000", r))
+	app := App{}
+	app.Initialize(
+		os.Getenv("APP_DB_USERNAME"),
+		os.Getenv("APP_DB_PASSWORD"),
+		os.Getenv("APP_DB_NAME"),
+	)
+	app.Run(
+		os.Getenv("APP_ENV"),
+		os.Getenv("APP_PORT"),
+	)
 }

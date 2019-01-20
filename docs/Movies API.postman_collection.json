@@ -1,0 +1,143 @@
+{
+	"info": {
+		"_postman_id": "50ae0841-f1d0-4697-b5ed-5c6a00694071",
+		"name": "Movies API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "/movies",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:8000/movies",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"movies"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/movies/:id",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:8000/movies/ba313e4f-43ad-4704-bfcf-0b3561338ed0",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"movies",
+						"ba313e4f-43ad-4704-bfcf-0b3561338ed0"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/movies/:id/reviews",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:8000/movies/ba313e4f-43ad-4704-bfcf-0b3561338ed0/reviews",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"movies",
+						"ba313e4f-43ad-4704-bfcf-0b3561338ed0",
+						"reviews"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/movies",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"title\": \"Mulan\",\n    \"release_year\": 1998,\n    \"duration\": 88,\n    \"short_description\": \"Quando os mongóis invadem a China, o imperador (Pat Morita) decreta que cada família ceda um homem para o exército imperial. Com isso, uma jovem fica angustiada ao ver seu velho e doente pai ser convocado, por ser o único homem da família. Ele precisa ir, mesmo sabendo que certamente morrerá, para manter a honra da família. Assim, sua filha rouba sua armadura e espada, se disfarça de homem e se apresenta no lugar do pai, mas os espíritos dos ancestrais decidem protegê-la e ordenam a um dragão (Eddie Murphy), que havia caído em desgraça, que convença a jovem a abandonar seu plano. Ele concorda, mas quando conhece a jovem descobre que ela não pode ser dissuadida e, assim, decide ajudá-la a cumprir sua perigosa missão de ir para a guerra e voltar viva.\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8000/movies",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"movies"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/movies/:id/reviews",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"first_name\": \"Amy\",\n    \"last_name\": \"Farrah Fowler\",\n    \"score\": 5,\n    \"text\": \"Eu queria ser uma guerreira como a Moana.\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8000/movies/a45834f0-5b31-479e-89ae-5eb812158e8f/reviews",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"movies",
+						"a45834f0-5b31-479e-89ae-5eb812158e8f",
+						"reviews"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

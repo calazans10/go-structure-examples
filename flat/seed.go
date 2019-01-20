@@ -1,9 +1,63 @@
 package main
 
-import "fmt"
+import (
+	"log"
+	"time"
 
-// PopulateMovies populates the database with Movies
-func PopulateMovies() {
+	"github.com/jmoiron/sqlx"
+)
+
+// Seed defines the seed structure
+type Seed struct {
+	DB *sqlx.DB
+}
+
+// NewSeed creates a new seed
+func NewSeed(db *sqlx.DB) *Seed {
+	return &Seed{
+		DB: db,
+	}
+}
+
+// Pollute prepares database with seed data
+func (s *Seed) Pollute() {
+	s.createTables()
+	s.clearTables()
+	s.populateMovies()
+	s.populateReviews()
+}
+
+func (s *Seed) createTables() {
+	var schema = `
+	CREATE TABLE IF NOT EXISTS movie (
+		id TEXT PRIMARY KEY,
+		title TEXT NOT NULL,
+		release_year integer NOT NULL,
+		duration integer NOT NULL,
+		short_description text NOT NULL,
+		created_at DATETIME NOT NULL,
+		CONSTRAINT movie_pkey PRIMARY KEY (id)
+	);
+
+	CREATE TABLE IF NOT EXISTS review (
+		id TEXT PRIMARY KEY,
+		first_name TEXT NOT NULL,
+		last_name TEXT NOT NULL,
+		score integer NOT NULL,
+		text text NOT NULL,
+		movie_id TEXT REFERENCES movie(id),
+		created_at DATETIME NOT NULL,
+		CONSTRAINT review_pkey PRIMARY KEY (id)
+	)`
+	s.DB.MustExec(schema)
+}
+
+func (s *Seed) clearTables() {
+	s.DB.MustExec("DELETE FROM review")
+	s.DB.MustExec("DELETE FROM movie")
+}
+
+func (s *Seed) populateMovies() {
 	defaultMovies := []Movie{
 		{
 			ID:          "197451da-86fa-49d0-9702-817e8c885fb8",
@@ -154,13 +208,22 @@ func PopulateMovies() {
 				"acontece o trágico acidente, que eles enfrentam juntos.",
 		},
 	}
-	fmt.Println(defaultMovies)
+
+	for _, movie := range defaultMovies {
+		movie.CreatedAt = time.Now()
+		tx := s.DB.MustBegin()
+		tx.NamedExec("INSERT INTO movie (id, title, release_year, duration, short_description, created_at) VALUES (:id, :title, :release_year, :duration, :short_description, :created_at)", &movie)
+		err := tx.Commit()
+		if err != nil {
+			log.Fatal(err)
+		}
+	}
 }
 
-// PopulateReviews populates the database with Reviews
-func PopulateReviews() {
+func (s *Seed) populateReviews() {
 	defaultReviews := []Review{
 		{
+			ID:        "07cb68b0-1ce9-4a9c-9be9-35bee798799d",
 			MovieID:   "ba313e4f-43ad-4704-bfcf-0b3561338ed0",
 			FirstName: "Sheldon",
 			LastName:  "Cooper",
@@ -168,6 +231,7 @@ func PopulateReviews() {
 			Text:      "Bazinga",
 		},
 		{
+			ID:        "d76a9ba8-9498-4923-9405-43c16cd1e80b",
 			MovieID:   "9182a3d6-15e1-4777-9e2e-380bd5b7167d",
 			FirstName: "Leonard",
 			LastName:  "Hofstadter",
@@ -175,6 +239,7 @@ func PopulateReviews() {
 			Text:      "Achei o filme muito violento.",
 		},
 		{
+			ID:        "5b887d05-27d5-4419-956e-61f14bcc53df",
 			MovieID:   "9182a3d6-15e1-4777-9e2e-380bd5b7167d",
 			FirstName: "Howard",
 			LastName:  "Wolowitz",
@@ -182,6 +247,7 @@ func PopulateReviews() {
 			Text:      "Infelizmente não tinha comédia no filme.",
 		},
 		{
+			ID:        "333e1c08-cb34-4b50-b925-f5433919e393",
 			MovieID:   "ba313e4f-43ad-4704-bfcf-0b3561338ed0",
 			FirstName: "Raj",
 			LastName:  "Koothrappali",
@@ -189,6 +255,7 @@ func PopulateReviews() {
 			Text:      "Chorei horrores com a morte do Jack.",
 		},
 		{
+			ID:        "f2a17805-2b44-43a4-873e-5ca4784342b9",
 			MovieID:   "ba313e4f-43ad-4704-bfcf-0b3561338ed0",
 			FirstName: "Stuart",
 			LastName:  "Bloom",
@@ -196,6 +263,7 @@ func PopulateReviews() {
 			Text:      "Não era um filme de super-heróis.",
 		},
 		{
+			ID:        "62291783-9b26-47df-a840-767e44688971",
 			MovieID:   "9182a3d6-15e1-4777-9e2e-380bd5b7167d",
 			FirstName: "Penny",
 			LastName:  "Hofstadter",
@@ -203,5 +271,14 @@ func PopulateReviews() {
 			Text:      "Eu sou de Nebraska .",
 		},
 	}
-	fmt.Println(defaultReviews)
+
+	for _, review := range defaultReviews {
+		review.CreatedAt = time.Now()
+		tx := s.DB.MustBegin()
+		tx.NamedExec("INSERT INTO review (id, movie_id, first_name, last_name, score, text, created_at) VALUES (:id, :movie_id, :first_name, :last_name, :score, :text, :created_at)", &review)
+		err := tx.Commit()
+		if err != nil {
+			log.Fatal(err)
+		}
+	}
 }
