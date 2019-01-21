@@ -31,23 +31,23 @@ func (s *Seed) Pollute() {
 func (s *Seed) createTables() {
 	var schema = `
 	CREATE TABLE IF NOT EXISTS movie (
-		id TEXT PRIMARY KEY,
+		id TEXT,
 		title TEXT NOT NULL,
 		release_year integer NOT NULL,
 		duration integer NOT NULL,
 		short_description text NOT NULL,
-		created_at DATETIME NOT NULL,
+		created_at TIMESTAMPTZ NOT NULL,
 		CONSTRAINT movie_pkey PRIMARY KEY (id)
 	);
 
 	CREATE TABLE IF NOT EXISTS review (
-		id TEXT PRIMARY KEY,
+		id TEXT,
 		first_name TEXT NOT NULL,
 		last_name TEXT NOT NULL,
 		score integer NOT NULL,
 		text text NOT NULL,
 		movie_id TEXT REFERENCES movie(id),
-		created_at DATETIME NOT NULL,
+		created_at TIMESTAMPTZ NOT NULL,
 		CONSTRAINT review_pkey PRIMARY KEY (id)
 	)`
 	s.DB.MustExec(schema)
