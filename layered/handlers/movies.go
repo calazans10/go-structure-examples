@@ -5,11 +5,12 @@ import (
 	"net/http"
 
 	"github.com/calazans10/go-structure-examples/layered/models"
+	"github.com/calazans10/go-structure-examples/layered/storage"
 	"github.com/gorilla/mux"
 )
 
 // GetMovies returns the movies
-func GetMovies(service *models.Service) http.Handler {
+func GetMovies(service *storage.Service) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		errorMessage := "Error reading movies"
 
@@ -24,7 +25,7 @@ func GetMovies(service *models.Service) http.Handler {
 }
 
 // GetMovie returns a movie
-func GetMovie(service *models.Service) http.Handler {
+func GetMovie(service *storage.Service) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		errorMessage := "Error reading a movie"
 		vars := mux.Vars(r)
@@ -41,7 +42,7 @@ func GetMovie(service *models.Service) http.Handler {
 }
 
 // AddMovie adds a new movie
-func AddMovie(service *models.Service) http.Handler {
+func AddMovie(service *storage.Service) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		errorMessage := "Error adding a movie"
 		movie := models.Movie{}

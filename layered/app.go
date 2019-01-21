@@ -8,7 +8,6 @@ import (
 
 	requestid "github.com/aphistic/negroni-requestid"
 	"github.com/calazans10/go-structure-examples/layered/handlers"
-	"github.com/calazans10/go-structure-examples/layered/models"
 	"github.com/calazans10/go-structure-examples/layered/storage"
 	"github.com/gorilla/mux"
 	"github.com/jmoiron/sqlx"
@@ -60,7 +59,7 @@ func (a *App) initializeDatabase(user, password, dbname string) {
 
 func (a *App) initializeRoutes() {
 	repo := storage.NewPostgresRepository(a.DB)
-	service := models.NewService(repo)
+	service := storage.NewService(repo)
 
 	a.Router = mux.NewRouter()
 	a.Router.Handle("/movies", handlers.GetMovies(service)).Methods("GET")

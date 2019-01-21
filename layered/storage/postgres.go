@@ -10,7 +10,7 @@ type repo struct {
 }
 
 // NewPostgresRepository creates a new repository
-func NewPostgresRepository(db *sqlx.DB) models.Repository {
+func NewPostgresRepository(db *sqlx.DB) Repository {
 	return &repo{
 		DB: db,
 	}

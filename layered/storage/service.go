@@ -1,8 +1,9 @@
-package models
+package storage
 
 import (
 	"time"
 
+	"github.com/calazans10/go-structure-examples/layered/models"
 	"github.com/gofrs/uuid"
 )
 
@@ -19,22 +20,22 @@ func NewService(r Repository) *Service {
 }
 
 // FindMovie returns a movie
-func (s *Service) FindMovie(id string) (*Movie, error) {
+func (s *Service) FindMovie(id string) (*models.Movie, error) {
 	return s.repo.FindMovie(id)
 }
 
 // FindMovies returns the movies
-func (s *Service) FindMovies() ([]*Movie, error) {
+func (s *Service) FindMovies() ([]*models.Movie, error) {
 	return s.repo.FindMovies()
 }
 
 // FindMovieReviews returns all reviews for a movie
-func (s *Service) FindMovieReviews(movieID string) ([]*Review, error) {
+func (s *Service) FindMovieReviews(movieID string) ([]*models.Review, error) {
 	return s.repo.FindMovieReviews(movieID)
 }
 
 // SaveMovie stores a movie
-func (s *Service) SaveMovie(movie *Movie) error {
+func (s *Service) SaveMovie(movie *models.Movie) error {
 	uuid, _ := uuid.NewV4()
 	movie.ID = uuid.String()
 	movie.CreatedAt = time.Now()
@@ -42,7 +43,7 @@ func (s *Service) SaveMovie(movie *Movie) error {
 }
 
 // SaveMovieReview stores a review for a movie
-func (s *Service) SaveMovieReview(review *Review) error {
+func (s *Service) SaveMovieReview(review *models.Review) error {
 	uuid, _ := uuid.NewV4()
 	review.ID = uuid.String()
 	review.CreatedAt = time.Now()
