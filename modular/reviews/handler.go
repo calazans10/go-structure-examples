@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"net/http"
 
+	"github.com/calazans10/go-structure-examples/modular/helpers"
 	"github.com/gorilla/mux"
 )
 
@@ -20,7 +21,7 @@ func GetMovieReviews(service *Service) http.Handler {
 			return
 		}
 
-		respondWithJSON(w, data, http.StatusOK)
+		helpers.RespondWithJSON(w, data, http.StatusOK)
 	})
 }
 
@@ -47,18 +48,6 @@ func AddMovieReview(service *Service) http.Handler {
 			return
 		}
 
-		respondWithEmpty(w, http.StatusCreated)
+		helpers.RespondWithEmpty(w, http.StatusCreated)
 	})
-}
-
-func respondWithJSON(w http.ResponseWriter, payload interface{}, code int) {
-	response, _ := json.Marshal(payload)
-
-	w.Header().Set("Content-Type", "application/json")
-	w.WriteHeader(code)
-	w.Write(response)
-}
-
-func respondWithEmpty(w http.ResponseWriter, code int) {
-	respondWithJSON(w, "", code)
 }

@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"net/http"
 
+	"github.com/calazans10/go-structure-examples/layered/helpers"
 	"github.com/calazans10/go-structure-examples/layered/models"
 	"github.com/calazans10/go-structure-examples/layered/storage"
 	"github.com/gorilla/mux"
@@ -22,7 +23,7 @@ func GetMovieReviews(service *storage.Service) http.Handler {
 			return
 		}
 
-		respondWithJSON(w, data, http.StatusOK)
+		helpers.RespondWithJSON(w, data, http.StatusOK)
 	})
 }
 
@@ -49,6 +50,6 @@ func AddMovieReview(service *storage.Service) http.Handler {
 			return
 		}
 
-		respondWithEmpty(w, http.StatusCreated)
+		helpers.RespondWithEmpty(w, http.StatusCreated)
 	})
 }
