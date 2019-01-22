@@ -12,14 +12,13 @@ func main() {
 		log.Fatal("Error loading .env file")
 	}
 
+	dbUser := os.Getenv("APP_DB_USERNAME")
+	dbPass := os.Getenv("APP_DB_PASSWORD")
+	dbName := os.Getenv("APP_DB_NAME")
+	appEnv := os.Getenv("APP_ENV")
+	appPort := os.Getenv("APP_PORT")
+
 	app := App{}
-	app.Initialize(
-		os.Getenv("APP_DB_USERNAME"),
-		os.Getenv("APP_DB_PASSWORD"),
-		os.Getenv("APP_DB_NAME"),
-	)
-	app.Run(
-		os.Getenv("APP_ENV"),
-		os.Getenv("APP_PORT"),
-	)
+	app.Initialize(dbUser, dbPass, dbName)
+	app.Run(appEnv, appPort)
 }
