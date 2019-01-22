@@ -4,7 +4,7 @@ import (
 	"log"
 	"os"
 
-	"github.com/calazans10/go-structure-examples/universal/pkg/api"
+	"github.com/calazans10/go-structure-examples/standard/pkg/api"
 	"github.com/joho/godotenv"
 )
 
